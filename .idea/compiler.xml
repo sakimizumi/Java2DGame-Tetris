@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="JavaGame-master" />
         <module name="Game" />
+        <module name="java2d" />
       </profile>
     </annotationProcessing>
   </component>

@@ -14,7 +14,7 @@ public class MenuState implements IState {
     int index = 1;
     String[] menu = new String[]{"退出","设置","排行","开始游戏"};
     private CursorView cursor;
-    private SoundEffect soundEffect;
+//    private SoundEffect soundEffect;
     public MenuState(StateMachine stateMachine) {
         this.stateMachine = stateMachine;
         textViews = new TextView[menu.length];
@@ -25,7 +25,7 @@ public class MenuState implements IState {
         }
         cursor = new CursorView();
         cursor.setLocation(textViews[textViews.length-1]);
-        soundEffect = new SoundEffect("sound/click.wav");
+//        soundEffect = new SoundEffect("sound/click.wav");
     }
 
     @Override
@@ -34,12 +34,12 @@ public class MenuState implements IState {
             if(++index > menu.length - 1){
                 index = menu.length - 1;
             }
-            soundEffect.startFromHead();
+//            soundEffect.startFromHead();
         }else if(stateMachine.keyHandler.isPRESS_DOWN()){
             if(--index < 1){
                 index = 0;
             }
-            soundEffect.startFromHead();
+//            soundEffect.startFromHead();
         }else if(stateMachine.keyHandler.isPRESS_OK()){
             switch (index){
                 case 0 -> System.exit(0);

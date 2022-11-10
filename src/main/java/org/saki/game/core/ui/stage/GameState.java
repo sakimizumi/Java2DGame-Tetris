@@ -3,6 +3,7 @@ package org.saki.game.core.ui.stage;
 import org.saki.game.Main;
 import org.saki.game.core.IState;
 import org.saki.game.core.StateMachine;
+import org.saki.game.core.entity.GameBlock;
 import org.saki.game.core.ui.GamePanel;
 import org.saki.game.core.ui.resource.Sprite;
 import org.saki.game.core.ui.resource.SpriteSheet;
@@ -17,7 +18,7 @@ import java.util.Objects;
 
 public class GameState implements IState {
     StateMachine stateMachine;
-    GameCanvas canvas = new GameCanvas();
+    GameCanvas canvas;
     GameBorder border = new GameBorder();
     SpriteSheet spriteSheet;
     Sprite sprite;
@@ -36,6 +37,7 @@ public class GameState implements IState {
     public void Update() {
 
         sprite.setPos(100,100);
+        canvas.Update();
     }
 
     @Override
@@ -44,10 +46,12 @@ public class GameState implements IState {
         canvas.Render(g);
         border.Render(g);
         sprite.Render(g);
+
     }
 
     @Override
     public void OnEnter() {
+        canvas = new GameCanvas();
         canvas.setSize(GamePanel.BLOCK_SIZE,GamePanel.BLOCK_SIZE,GamePanel.BLOCK_SIZE * GamePanel.COL,GamePanel.BLOCK_SIZE * GamePanel.ROW);
         border.setPos(GamePanel.BLOCK_SIZE * (GamePanel.COL + 2), GamePanel.BLOCK_SIZE * 3);
     }
