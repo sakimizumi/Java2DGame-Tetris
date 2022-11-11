@@ -17,13 +17,19 @@ public class GameBlock extends View{
     int OFFSET_HEIGHT = 0;
     private int curTime = 0;
     public void moveLeft(){
-        moveTo(getStartX() - GamePanel.BLOCK_SIZE,getStartY());
+        if(BLOCK_X_START > CANVAS_X_START) {
+            moveTo(getStartX() - OFFSET_WIDTH, getStartY());
+        }
     }
     public void moveRight(){
-        moveTo(getStartX() + GamePanel.BLOCK_SIZE,getStartY());
+        if(BLOCK_X_END < CANVAS_X_END){
+            moveTo(getStartX() + OFFSET_WIDTH,getStartY());
+        }
     }
     public void moveDown(){
-        moveTo(getStartX(),getStartY() + GamePanel.BLOCK_SIZE);
+        if(BLOCK_Y_END < CANVAS_Y_END){
+            moveTo(getStartX(),getStartY() + OFFSET_HALF_HEIGHT);
+        }
     }
     private int containerHeight;
     private int containerWidth;
@@ -34,32 +40,58 @@ public class GameBlock extends View{
     public void Update() {
         curTime++;
         if(curTime > Duration){
-//            moveDown();
+            moveDown();
             curTime = 0;
         }
     }
-    ErsBlock type = BLOCK_O;
+    ErsBlock type = BLOCK_T;
+
+    int CANVAS_X_START = 0;
+    int CANVAS_X_END = 0;
+    int CANVAS_Y_END = 0;
     public GameBlock(int startX,int startY,int width,int height){
         int spawnX = startX + (GamePanel.COL / 2 *  GamePanel.BLOCK_SIZE);
-        int spawnY = startY + (2 * GamePanel.BLOCK_SIZE);
+        int spawnY = startY - GamePanel.BLOCK_SIZE;
         containerHeight = height;
         containerWidth = width;
-        this.setStartX(spawnX);
-        this.setStartY(spawnY);
+        CANVAS_X_START = startX;
+        CANVAS_X_END = startX + width;
+        CANVAS_Y_END = startY + height;
+        BLOCK_X_START = CANVAS_X_END;
+        BLOCK_X_END = CANVAS_X_START;
+        BLOCK_Y_END = CANVAS_Y_END - 1;
         OFFSET_WIDTH = containerWidth / GamePanel.COL;
         OFFSET_HEIGHT = containerHeight / GamePanel.ROW;
         OFFSET_HALF_WIDTH = OFFSET_WIDTH / 2;
         OFFSET_HALF_HEIGHT = OFFSET_HEIGHT / 2;
+        this.setStartX(spawnX - OFFSET_HALF_WIDTH);
+        this.setStartY(spawnY + OFFSET_HALF_HEIGHT);
     }
 
+    int BLOCK_X_START = 0;
+    int BLOCK_X_END = 0;
+    int BLOCK_Y_END = 0;
     @Override
     public void Render(Graphics g) {
-//        for(Point point : type.points){
-//            int x = getStartX() + (point.x * SIZE);
-//            int y = getStartY() + (point.y * SIZE);
-//            g.drawRect(x, y, x, y);
-//        }
-            g.drawRect(getStartX() - OFFSET_HALF_WIDTH,getStartY() - OFFSET_HALF_HEIGHT,OFFSET_WIDTH,OFFSET_HEIGHT);
+        for(Point point : type.points){
+            int x = getStartX() + (point.x * SIZE);
+            int y = getStartY() + (point.y * SIZE);
+            int rect_x_start = x - OFFSET_HALF_WIDTH;
+            int rect_x_end = rect_x_start + OFFSET_WIDTH;
+            int rect_y_start = y - OFFSET_HALF_HEIGHT;
+            int rect_y_end = rect_y_start + OFFSET_HEIGHT;
+            if(BLOCK_X_START >= rect_x_start){
+                BLOCK_X_START = rect_x_start;
+            }
+            if(BLOCK_X_END <= rect_x_end){
+                BLOCK_X_END = rect_x_end;
+            }
+            if(BLOCK_Y_END <= rect_y_end){
+                BLOCK_Y_END = rect_y_end;
+            }
+            g.fillRect(rect_x_start,rect_y_start,OFFSET_WIDTH,OFFSET_HEIGHT);
+        }
+
     }
 
     @Override
@@ -70,5 +102,14 @@ public class GameBlock extends View{
     @Override
     public int getWidth() {
         return 0;
+    }
+
+
+    public boolean isAvailable() {
+        return true;
+    }
+
+    public void rotate(){
+
     }
 }

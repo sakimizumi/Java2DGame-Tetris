@@ -20,23 +20,22 @@ public class GameState implements IState {
     StateMachine stateMachine;
     GameCanvas canvas;
     GameBorder border = new GameBorder();
-    SpriteSheet spriteSheet;
-    Sprite sprite;
     public GameState(StateMachine stateMachine) {
         this.stateMachine = stateMachine;
-        try {
-            BufferedImage image = ImageIO.read(Objects.requireNonNull(Main.class.getResource("image/walk.png")));
-            spriteSheet = new SpriteSheet.SpriteSheetBuilder(image).row(3).col(8).setSpriteSize(24,24).build();
-            sprite = spriteSheet.getSprite(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
     public void Update() {
+        GameBlock block = canvas.getBlock();
+        if(block != null && block.isAvailable()){
+            if(stateMachine.keyHandler.isPRESS_LEFT()){
+                block.moveLeft();
+            }else if(stateMachine.keyHandler.isPRESS_RIGHT()){
+                block.moveRight();
+            }
+        }
 
-        sprite.setPos(100,100);
         canvas.Update();
     }
 
@@ -45,7 +44,6 @@ public class GameState implements IState {
 
         canvas.Render(g);
         border.Render(g);
-        sprite.Render(g);
 
     }
 

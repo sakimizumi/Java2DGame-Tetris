@@ -14,7 +14,7 @@ public enum ErsBlock {
      * ]
      */
     BLOCK_I(true,new Point(0, 0),new Point(0, -1),new Point(0, -2),new Point(0, 1),new Point(0, 2)),
-    BLOCK_T(true,new Point(0, 0),new Point(0, 0), new Point(1, 0), new Point(0, -0), new Point(-1, 0)),
+    BLOCK_T(true,new Point(0, 0),new Point(0, 0), new Point(1, 0), new Point(0, -1), new Point(-1, 0)),
     BLOCK_O(false,new Point(0, 0),new Point(0, 0), new Point(0, -1), new Point(1, 0), new Point(1, -1)),
     BLOCK_Z1(true,new Point(0, 0),new Point(0, 0),new Point(0, -1),new Point(1, 0),new Point(1, 1)),
     BLOCK_Z2(true,new Point(0, 0),new Point(0, 0),new Point(0, -1),new Point(-1, 0),new Point(-1, 1)),
